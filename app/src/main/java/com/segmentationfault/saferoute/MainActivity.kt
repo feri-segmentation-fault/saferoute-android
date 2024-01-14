@@ -6,10 +6,8 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
-import android.view.View
 import android.view.ViewGroup.LayoutParams
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private val url = "http://192.168.1.5:5000/detect"
     private val client = OkHttpClient()
 
-    private var isImageFitToScreen = false;
+    private var isImageFitToScreen = false
     private lateinit var imageViewLayout: LayoutParams
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,18 +46,20 @@ class MainActivity : AppCompatActivity() {
 
         imageViewLayout = binding.captureImage.layoutParams
 
-        binding.captureImage.setOnClickListener(View.OnClickListener {
+        binding.captureImage.setOnClickListener {
             if (isImageFitToScreen) {
                 isImageFitToScreen = false
                 binding.captureImage.layoutParams = imageViewLayout
                 binding.captureImage.adjustViewBounds = true
             } else {
                 isImageFitToScreen = true
-                binding.captureImage.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams
-                    .MATCH_PARENT)
+                binding.captureImage.layoutParams = ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams
+                        .MATCH_PARENT
+                )
                 binding.captureImage.scaleType = ImageView.ScaleType.FIT_XY
             }
-        })
+        }
     }
 
     private val getPhotoFromCamera = registerForActivityResult(
