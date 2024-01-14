@@ -6,8 +6,13 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
+import android.view.View
+import android.view.ViewGroup.LayoutParams
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.segmentationfault.saferoute.databinding.ActivityMainBinding
 import okhttp3.Call
 import okhttp3.Callback
@@ -28,6 +33,9 @@ class MainActivity : AppCompatActivity() {
     private val url = "http://192.168.1.5:5000/detect"
     private val client = OkHttpClient()
 
+    private var isImageFitToScreen = false;
+    private lateinit var imageViewLayout: LayoutParams
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -37,6 +45,21 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CaptureActivity::class.java)
             getPhotoFromCamera.launch(intent)
         }
+
+        imageViewLayout = binding.captureImage.layoutParams
+
+        binding.captureImage.setOnClickListener(View.OnClickListener {
+            if (isImageFitToScreen) {
+                isImageFitToScreen = false
+                binding.captureImage.layoutParams = imageViewLayout
+                binding.captureImage.adjustViewBounds = true
+            } else {
+                isImageFitToScreen = true
+                binding.captureImage.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams
+                    .MATCH_PARENT)
+                binding.captureImage.scaleType = ImageView.ScaleType.FIT_XY
+            }
+        })
     }
 
     private val getPhotoFromCamera = registerForActivityResult(
@@ -92,7 +115,7 @@ class MainActivity : AppCompatActivity() {
                 val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
 
                 runOnUiThread {
-                    binding.statusText.text = "Detection finished. Found " + jsonObject.getInt("num") + " cars."
+                    binding.statusText.text = "Detection finished. Found " + jsonObject.getInt("num") + " car/s."
                     binding.captureImage.setImageBitmap(decodedByte)
                     binding.captureImage.rotation = 0f
                 }

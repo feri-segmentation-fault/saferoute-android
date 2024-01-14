@@ -10,9 +10,9 @@
         android:id="@+id/captureTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="80dp"
-        android:text="Check traffic"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="Count cars on the road"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,10 +20,11 @@
 
     <ImageView
         android:id="@+id/captureImage"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
+        android:layout_width="370dp"
+        android:layout_height="330dp"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/captureTitle"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
@@ -33,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Open Camera"
+        android:text="Capture an image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusText" />
@@ -42,7 +43,7 @@
         android:id="@+id/statusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/captureImage" />
