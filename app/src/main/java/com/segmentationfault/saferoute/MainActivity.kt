@@ -55,6 +55,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestDataFromApi(photoUri: Uri) {
+        binding.statusText.text = "Analyzing..."
+
         val bytes: ByteArray
         contentResolver.openInputStream(photoUri).use { inputStream ->
             bytes = inputStream!!.readBytes()
@@ -73,14 +75,15 @@ class MainActivity : AppCompatActivity() {
             .build()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                println("Request failed")
+                runOnUiThread {
+                    binding.statusText.text = "Analysis failed..."
+                }
+
                 println(e.message)
                 println(e.toString())
             }
 
             override fun onResponse(call: Call, response: Response) {
-                println("Request success")
-
                 if (response.code != 201)
                     return
 
@@ -89,7 +92,9 @@ class MainActivity : AppCompatActivity() {
                 val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
 
                 runOnUiThread {
+                    binding.statusText.text = "Detection finished. Found " + jsonObject.getInt("num") + " cars."
                     binding.captureImage.setImageBitmap(decodedByte)
+                    binding.captureImage.rotation = 0f
                 }
             }
         })
