@@ -52,4 +52,6 @@ dependencies {
     implementation("androidx.camera:camera-extensions:${cameraxVersion}")
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:3.0-alpha-1")
 }
