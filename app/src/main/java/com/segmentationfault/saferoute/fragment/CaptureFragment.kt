@@ -1,10 +1,9 @@
-package com.segmentationfault.saferoute
+package com.segmentationfault.saferoute.fragment
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
@@ -13,24 +12,30 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import com.segmentationfault.saferoute.databinding.ActivityCaptureBinding
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
+import com.segmentationfault.saferoute.MyApplication
+import com.segmentationfault.saferoute.R
+import com.segmentationfault.saferoute.databinding.FragmentCaptureBinding
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CaptureActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCaptureBinding
+class CaptureFragment: Fragment(R.layout.fragment_capture) {
+    private lateinit var binding: FragmentCaptureBinding
+    private lateinit var app: MyApplication
 
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var outputDirectory: File
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityCaptureBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentCaptureBinding.bind(view)
+        app = requireContext().applicationContext as MyApplication
 
         if (isCameraPermissionGranted())
             startCamera()
@@ -47,11 +52,11 @@ class CaptureActivity : AppCompatActivity() {
 
     private fun startCamera() {
         if (!isCameraPermissionGranted()) {
-            Toast.makeText(this, "No camera permission", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "No camera permission", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
@@ -70,7 +75,7 @@ class CaptureActivity : AppCompatActivity() {
             cameraProvider.unbindAll()
             cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
 
-        }, ContextCompat.getMainExecutor(this))
+        }, ContextCompat.getMainExecutor(requireContext()))
     }
 
     private fun takePhoto() {
@@ -85,17 +90,18 @@ class CaptureActivity : AppCompatActivity() {
 
         imageCapture.takePicture(
             outputOptions,
-            ContextCompat.getMainExecutor(this),
+            ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    Toast.makeText(baseContext, "Photo capture failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Photo capture failed", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults){
-                    val data = Intent()
-                    data.putExtra("photoUri", Uri.fromFile(photoFile).toString())
-                    setResult(RESULT_OK, data)
-                    finish()
+                    val data = bundleOf()
+                    data.putString("photoUri", Uri.fromFile(photoFile).toString())
+
+                    setFragmentResult("resultFromCapture", data)
+                    parentFragmentManager.popBackStack()
                 }
             }
         )
@@ -103,7 +109,7 @@ class CaptureActivity : AppCompatActivity() {
 
     private fun isCameraPermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(
-            this, android.Manifest.permission.CAMERA
+            requireContext(), android.Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
     }
 
@@ -114,20 +120,20 @@ class CaptureActivity : AppCompatActivity() {
             )
             { isGranted ->
                 if (!isGranted)
-                    Toast.makeText(this, "Permission request denied", Toast.LENGTH_SHORT).show()
-                finish()
-                startActivity(intent)
+                    Toast.makeText(requireContext(), "Permission request denied", Toast.LENGTH_SHORT).show()
+                
+                startCamera()
             }
 
         activityResultLauncher.launch(android.Manifest.permission.CAMERA)
     }
 
     private fun getOutputDirectory(): File {
-        val mediaDir = externalMediaDirs.firstOrNull()?.let {
+        val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
         }
         return if (mediaDir != null && mediaDir.exists())
-            mediaDir else filesDir
+            mediaDir else requireActivity().filesDir
     }
 
     override fun onDestroy() {
