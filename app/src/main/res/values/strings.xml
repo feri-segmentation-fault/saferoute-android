@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">SafeRoute</string>
+    <string-array name="accident_type_array">
+        <item>BOČNO TRČENJE</item>
+        <item>ČELNO TRČENJE</item>
+        <item>NALETNO TRČENJE</item>
+        <item>OPLAŽENJE</item>
+        <item>OSTALO</item>
+        <item>POVOŽENJE PEŠCA</item>
+        <item>POVOŽENJE ŽIVALI</item>
+        <item>PREVRNITEV VOZILA</item>
+        <item>TRČENJE V OBJEKT</item>
+        <item>TRČENJE V STOJEČE / PARKIRANO VOZILO</item>
+    </string-array>
 </resources>
