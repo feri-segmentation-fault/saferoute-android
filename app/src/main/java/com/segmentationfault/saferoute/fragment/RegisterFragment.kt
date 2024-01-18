@@ -3,7 +3,6 @@ package com.segmentationfault.saferoute.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.segmentationfault.saferoute.MyApplication
 import com.segmentationfault.saferoute.R
 import com.segmentationfault.saferoute.databinding.FragmentRegisterBinding
@@ -28,7 +27,7 @@ class RegisterFragment: Fragment(R.layout.fragment_register) {
         app = requireContext().applicationContext as MyApplication
 
         binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_registerFragment_to_mainFragment)
+            parentFragmentManager.popBackStack()
         }
 
         binding.registerButton.setOnClickListener {
@@ -65,9 +64,7 @@ class RegisterFragment: Fragment(R.layout.fragment_register) {
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.code == 201) {
-                    requireActivity().runOnUiThread {
-                        findNavController().navigate(R.id.action_registerFragment_to_mainFragment)
-                    }
+                    parentFragmentManager.popBackStack()
                 } else {
                     requireActivity().runOnUiThread {
                         binding.registerStatus.text = "Registration failed. Try again!"

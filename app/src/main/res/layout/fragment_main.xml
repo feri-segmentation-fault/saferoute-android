@@ -6,42 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="Welcome, Jake!"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
         android:text="Logout"
-        app:layout_constraintStart_toEndOf="@+id/openRegisterButton"
-        app:layout_constraintTop_toBottomOf="@+id/openCaptureButton" />
-
-    <Button
-        android:id="@+id/openRegisterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Register"
-        app:layout_constraintStart_toEndOf="@+id/openLoginButton"
-        app:layout_constraintTop_toBottomOf="@+id/openCaptureButton" />
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:strokeColor="@color/white"
+        app:strokeWidth="1dp" />
 
     <Button
         android:id="@+id/openLoginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
         android:text="Login"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/openCaptureButton" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/welcomeText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:strokeColor="@color/white"
+        app:strokeWidth="1dp" />
 
     <TextView
         android:id="@+id/captureTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="90dp"
         android:text="Count cars on the road"
         android:textSize="20sp"
         android:textStyle="bold"

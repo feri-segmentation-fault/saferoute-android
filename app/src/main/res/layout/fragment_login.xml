@@ -64,7 +64,7 @@
         android:id="@+id/passwordInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:ems="10"
         android:inputType="textPassword"
@@ -80,7 +80,7 @@
         android:ems="10"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/openRegisterButton" />
 
     <TextView
         android:id="@+id/loginStatus"
@@ -90,4 +90,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
+
+    <TextView
+        android:id="@+id/registerMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Do not have an account yet?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleLogin" />
+
+    <Button
+        android:id="@+id/openRegisterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerMessage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,11 +28,15 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
         app = requireContext().applicationContext as MyApplication
 
         binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+            parentFragmentManager.popBackStack()
         }
 
         binding.loginButton.setOnClickListener {
             sendLoginToApi()
+        }
+
+        binding.openRegisterButton.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
 
@@ -57,9 +61,8 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.code == 200) {
-                    requireActivity().runOnUiThread {
-                        findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
-                    }
+                    app.cookie = response.headers("Set-Cookie")[0]
+                    parentFragmentManager.popBackStack()
                 } else {
                     requireActivity().runOnUiThread {
                         binding.loginStatus.text = "Login failed. Try again!"

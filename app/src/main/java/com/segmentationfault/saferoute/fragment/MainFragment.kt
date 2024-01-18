@@ -41,12 +41,12 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             findNavController().navigate(R.id.action_mainFragment_to_loginFragment)
         }
 
-        binding.openRegisterButton.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_registerFragment)
-        }
-
         binding.openCaptureButton.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_captureFragment)
+        }
+
+        binding.logoutButton.setOnClickListener {
+            sendLogoutRequest()
         }
 
         imageViewLayout = binding.captureImage.layoutParams
@@ -75,6 +75,8 @@ class MainFragment: Fragment(R.layout.fragment_main) {
 
             requestDataFromApi(uri)
         }
+
+        getCurrentUser()
     }
 
     private fun requestDataFromApi(photoUri: Uri) {
@@ -119,6 +121,61 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                     binding.captureImage.setImageBitmap(decodedByte)
                     binding.captureImage.rotation = 0f
                 }
+            }
+        })
+    }
+
+    private fun getCurrentUser() {
+        val request = Request.Builder()
+            .get()
+            .addHeader("Cookie", app.cookie)
+            .url(MyApplication.DATABASE_API + "/current")
+            .build()
+        app.client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                app.username = ""
+                updateToolbar()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.code == 200) {
+                    val jsonObject = JSONObject(response.body!!.string())
+                    app.username = jsonObject.getString("username")
+                } else {
+                    app.username = ""
+                }
+                updateToolbar()
+            }
+        })
+    }
+
+    private fun updateToolbar() {
+        requireActivity().runOnUiThread {
+            if (app.username == "") {
+                binding.welcomeText.text = "Welcome!"
+                binding.logoutButton.visibility = View.INVISIBLE
+                binding.openLoginButton.visibility = View.VISIBLE
+            } else {
+                binding.welcomeText.text = "Welcome, " + app.username + "!"
+                binding.logoutButton.visibility = View.VISIBLE
+                binding.openLoginButton.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    private fun sendLogoutRequest() {
+        val request = Request.Builder()
+            .get()
+            .url(MyApplication.DATABASE_API + "/logout")
+            .addHeader("Cookie", app.cookie)
+            .build()
+        app.client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {}
+            override fun onResponse(call: Call, response: Response) {
+                if (response.headers("Set-Cookie")[0].split(";")[0] == "token=")
+                    app.cookie = ""
+
+                getCurrentUser()
             }
         })
     }

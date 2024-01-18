@@ -5,6 +5,8 @@ import okhttp3.OkHttpClient
 
 class MyApplication : Application() {
     val client = OkHttpClient()
+    var cookie = ""
+    var username = ""
 
     override fun onCreate() {
         super.onCreate()
