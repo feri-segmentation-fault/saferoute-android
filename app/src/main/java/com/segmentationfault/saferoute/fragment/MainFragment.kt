@@ -44,6 +44,10 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             findNavController().navigate(R.id.action_mainFragment_to_loginFragment)
         }
 
+        binding.openRegisterButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_registerFragment)
+        }
+
         binding.openCaptureButton.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_captureFragment)
         }
