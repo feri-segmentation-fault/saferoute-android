@@ -1,8 +1,10 @@
 package com.segmentationfault.saferoute
 
 import android.app.Application
+import okhttp3.OkHttpClient
 
 class MyApplication : Application() {
+    val client = OkHttpClient()
 
     override fun onCreate() {
         super.onCreate()

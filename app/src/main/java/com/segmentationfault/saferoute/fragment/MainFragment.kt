@@ -18,7 +18,6 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -29,8 +28,6 @@ import java.io.IOException
 class MainFragment: Fragment(R.layout.fragment_main) {
     private lateinit var binding: FragmentMainBinding
     private lateinit var app: MyApplication
-
-    private val client = OkHttpClient()
 
     private var isImageFitToScreen = false
     private lateinit var imageViewLayout: ViewGroup.LayoutParams
@@ -99,7 +96,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             .post(requestBody)
             .url(MyApplication.RECOGNITION_API)
             .build()
-        client.newCall(request).enqueue(object : Callback {
+        app.client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 requireActivity().runOnUiThread {
                     binding.statusText.text = "Analysis failed..."

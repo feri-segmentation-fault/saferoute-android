@@ -1,4 +1,4 @@
-package com.segmentationfault.saferoute.fragment;
+package com.segmentationfault.saferoute.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -11,7 +11,6 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -22,8 +21,6 @@ import java.io.IOException
 class LoginFragment: Fragment(R.layout.fragment_login) {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var app: MyApplication
-
-    private val client = OkHttpClient()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,7 +48,7 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
             .post(requestBody)
             .url(MyApplication.DATABASE_API + "/login")
             .build()
-        client.newCall(request).enqueue(object : Callback {
+        app.client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 requireActivity().runOnUiThread {
                     binding.loginStatus.text = "Login failed. Try again!"

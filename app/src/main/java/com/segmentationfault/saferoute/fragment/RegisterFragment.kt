@@ -1,4 +1,4 @@
-package com.segmentationfault.saferoute.fragment;
+package com.segmentationfault.saferoute.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -11,7 +11,6 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -22,8 +21,6 @@ import java.io.IOException
 class RegisterFragment: Fragment(R.layout.fragment_register) {
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var app: MyApplication
-
-    private val client = OkHttpClient()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,7 +41,7 @@ class RegisterFragment: Fragment(R.layout.fragment_register) {
             requireActivity().runOnUiThread {
                 binding.registerStatus.text = "Passwords do not match!"
             }
-            return;
+            return
         }
 
         val payload = JSONObject()
@@ -59,7 +56,7 @@ class RegisterFragment: Fragment(R.layout.fragment_register) {
             .post(requestBody)
             .url(MyApplication.DATABASE_API + "/register")
             .build()
-        client.newCall(request).enqueue(object : Callback {
+        app.client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 requireActivity().runOnUiThread {
                     binding.registerStatus.text = "Registration failed. Try again!"
