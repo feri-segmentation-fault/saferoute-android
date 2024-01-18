@@ -121,7 +121,7 @@ class CaptureFragment: Fragment(R.layout.fragment_capture) {
             { isGranted ->
                 if (!isGranted)
                     Toast.makeText(requireContext(), "Permission request denied", Toast.LENGTH_SHORT).show()
-                
+
                 startCamera()
             }
 

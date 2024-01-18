@@ -30,7 +30,6 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     private lateinit var binding: FragmentMainBinding
     private lateinit var app: MyApplication
 
-    private val url = "http://192.168.1.5:5000/detect"
     private val client = OkHttpClient()
 
     private var isImageFitToScreen = false
@@ -41,7 +40,11 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         binding = FragmentMainBinding.bind(view)
         app = requireContext().applicationContext as MyApplication
 
-        binding.cameraButton.setOnClickListener {
+        binding.openLoginButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_loginFragment)
+        }
+
+        binding.openCaptureButton.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_captureFragment)
         }
 
@@ -90,7 +93,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
 
         val request = Request.Builder()
             .post(requestBody)
-            .url(url)
+            .url(MyApplication.RECOGNITION_API)
             .build()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
