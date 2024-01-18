@@ -18,7 +18,7 @@ import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 
-class LoginFragment: Fragment(R.layout.fragment_login) {
+class LoginFragment : Fragment(R.layout.fragment_login) {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var app: MyApplication
 
@@ -45,7 +45,7 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
         payload.put("username", binding.usernameInput.text.toString())
         payload.put("password", binding.passwordInput.text.toString())
 
-        val json : MediaType = "application/json; charset=utf-8".toMediaType()
+        val json: MediaType = "application/json; charset=utf-8".toMediaType()
         val requestBody: RequestBody = payload.toString().toRequestBody(json)
 
         val request = Request.Builder()

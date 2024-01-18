@@ -25,7 +25,7 @@ import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 
-class MainFragment: Fragment(R.layout.fragment_main) {
+class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var binding: FragmentMainBinding
     private lateinit var app: MyApplication
 
@@ -91,7 +91,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         val payload = JSONObject()
         payload.put("photo", imageBase64)
 
-        val json : MediaType = "application/json; charset=utf-8".toMediaType()
+        val json: MediaType = "application/json; charset=utf-8".toMediaType()
         val requestBody: RequestBody = payload.toString().toRequestBody(json)
 
         val request = Request.Builder()

@@ -24,7 +24,7 @@ import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CaptureFragment: Fragment(R.layout.fragment_capture) {
+class CaptureFragment : Fragment(R.layout.fragment_capture) {
     private lateinit var binding: FragmentCaptureBinding
     private lateinit var app: MyApplication
 
@@ -83,8 +83,10 @@ class CaptureFragment: Fragment(R.layout.fragment_capture) {
 
         val photoFile = File(
             outputDirectory,
-            SimpleDateFormat("dd-MM-yyyy hh-mm-ss", Locale.US
-            ).format(System.currentTimeMillis()) + ".jpg")
+            SimpleDateFormat(
+                "dd-MM-yyyy hh-mm-ss", Locale.US
+            ).format(System.currentTimeMillis()) + ".jpg"
+        )
 
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
@@ -96,7 +98,7 @@ class CaptureFragment: Fragment(R.layout.fragment_capture) {
                     Toast.makeText(requireContext(), "Photo capture failed", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onImageSaved(output: ImageCapture.OutputFileResults){
+                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val data = bundleOf()
                     data.putString("photoUri", Uri.fromFile(photoFile).toString())
 
