@@ -86,6 +86,14 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinner.adapter = adapter
         }
+
+        if (app.username == "") {
+            Toast.makeText(requireContext(), "Log in to submit accidents!", Toast.LENGTH_LONG).show()
+            binding.submitButton.isEnabled = false
+            binding.openCaptureButton.isEnabled = false
+            binding.spinner.isEnabled = false
+            binding.descriptionInput.isEnabled = false
+        }
     }
 
     private fun requestDataFromApi(photoUri: Uri) {
