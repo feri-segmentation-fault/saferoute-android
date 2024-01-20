@@ -3,7 +3,6 @@ package com.segmentationfault.saferoute.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.segmentationfault.saferoute.MyApplication
 import com.segmentationfault.saferoute.R
 import com.segmentationfault.saferoute.databinding.FragmentAccidentsBinding
@@ -22,15 +21,6 @@ class AccidentsFragment : Fragment(R.layout.fragment_accidents) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAccidentsBinding.bind(view)
         app = requireContext().applicationContext as MyApplication
-        
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.home -> findNavController().navigate(R.id.action_accidentsFragment_to_mainFragment3)
-                R.id.newAccident -> findNavController().navigate(R.id.action_accidentsFragment_to_newAccidentFragment)
-//                R.id.accidents -> setCurrentFragment(thirdFragment)
-            }
-            true
-        }
 
         getAccidentsFromApi()
     }

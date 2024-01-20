@@ -31,15 +31,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             sendLogoutRequest()
         }
 
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-//                R.id.home -> setCurrentFragment(firstFragment)
-                R.id.newAccident -> findNavController().navigate(R.id.action_mainFragment_to_newAccidentFragment)
-                R.id.accidents -> findNavController().navigate(R.id.action_mainFragment_to_accidentsFragment)
-            }
-            true
-        }
-
         getCurrentUser()
     }
 

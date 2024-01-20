@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
+        android:id="@+id/mainFragment"
         android:title="Home"
-        android:icon="@drawable/home"/>
+        android:icon="@drawable/home"
+        android:menuCategory="@+id/mainFragment" />
     <item
-        android:id="@+id/newAccident"
+        android:id="@+id/newAccidentFragment"
         android:title="New Accident"
-        android:icon="@drawable/car_crash"/>
+        android:icon="@drawable/car_crash"
+        android:menuCategory="@+id/newAccidentFragment" />
     <item
-        android:id="@+id/accidents"
+        android:id="@+id/accidentsFragment"
         android:title="Accidents"
-        android:icon="@drawable/earth"/>
+        android:icon="@drawable/earth"
+        android:menuCategory="@+id/accidentsFragment" />
 </menu>

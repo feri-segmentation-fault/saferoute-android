@@ -62,15 +62,6 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
                 binding.captureImage.scaleType = ImageView.ScaleType.FIT_XY
             }
         }
-        
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.home -> findNavController().navigate(R.id.action_newAccidentFragment_to_mainFragment)
-//                R.id.newAccident -> setCurrentFragment(secondFragment)
-//                R.id.accidents -> setCurrentFragment(thirdFragment)
-            }
-            true
-        }
 
         setFragmentResultListener("resultFromCapture") { _, bundle ->
             val photoUri = bundle.getString("photoUri").toString()
