@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_mainFragment_to_newAccidentFragment"
             app:destination="@id/newAccidentFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_accidentsFragment"
+            app:destination="@id/accidentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/captureFragment"
@@ -41,5 +44,16 @@
         <action
             android:id="@+id/action_newAccidentFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accidentsFragment"
+        android:name="com.segmentationfault.saferoute.fragment.AccidentsFragment"
+        android:label="AccidentsFragment" >
+        <action
+            android:id="@+id/action_accidentsFragment_to_mainFragment3"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_accidentsFragment_to_newAccidentFragment"
+            app:destination="@id/newAccidentFragment" />
     </fragment>
 </navigation>
