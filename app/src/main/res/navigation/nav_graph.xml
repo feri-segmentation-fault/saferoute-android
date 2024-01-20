@@ -9,9 +9,6 @@
         android:name="com.segmentationfault.saferoute.fragment.MainFragment"
         android:label="MainFragment" >
         <action
-            android:id="@+id/action_mainFragment_to_captureFragment"
-            app:destination="@id/captureFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
@@ -38,6 +35,9 @@
         android:id="@+id/newAccidentFragment"
         android:name="com.segmentationfault.saferoute.fragment.NewAccidentFragment"
         android:label="NewAccidentFragment" >
+        <action
+            android:id="@+id/action_newAccidentFragment_to_captureFragment"
+            app:destination="@id/captureFragment" />
         <action
             android:id="@+id/action_newAccidentFragment_to_mainFragment"
             app:destination="@id/mainFragment" />

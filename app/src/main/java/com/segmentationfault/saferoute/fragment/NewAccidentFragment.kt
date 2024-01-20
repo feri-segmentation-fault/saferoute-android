@@ -39,7 +39,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
         app = requireContext().applicationContext as MyApplication
 
         binding.openCaptureButton.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_captureFragment)
+            findNavController().navigate(R.id.action_newAccidentFragment_to_captureFragment)
         }
 
         imageViewLayout = binding.captureImage.layoutParams
