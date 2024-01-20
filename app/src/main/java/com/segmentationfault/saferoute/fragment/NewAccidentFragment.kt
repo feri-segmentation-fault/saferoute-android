@@ -2,6 +2,7 @@ package com.segmentationfault.saferoute.fragment
 
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -141,6 +143,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
         })
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun sendAccidentRequestToApi() {
         if (imageBase64.isEmpty() || binding.descriptionInput.text.isEmpty()) {
             requireActivity().runOnUiThread {
