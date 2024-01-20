@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -25,6 +26,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
+import java.time.LocalDateTime
 
 class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
     private lateinit var binding: FragmentNewAccidentBinding
@@ -32,6 +34,8 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
 
     private var isImageFitToScreen = false
     private lateinit var imageViewLayout: ViewGroup.LayoutParams
+
+    private var imageBase64 = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -78,6 +82,10 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
             requestDataFromApi(uri)
         }
 
+        binding.submitButton.setOnClickListener {
+            sendAccidentRequestToApi()
+        }
+
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.accident_type_array,
@@ -103,7 +111,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
         requireActivity().contentResolver.openInputStream(photoUri).use { inputStream ->
             bytes = inputStream!!.readBytes()
         }
-        val imageBase64 = Base64.encodeToString(bytes, Base64.DEFAULT)
+        imageBase64 = Base64.encodeToString(bytes, Base64.DEFAULT)
 
         val payload = JSONObject()
         payload.put("photo", imageBase64)
@@ -138,6 +146,46 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
                     binding.captureImage.setImageBitmap(decodedByte)
                     binding.captureImage.rotation = 0f
                 }
+            }
+        })
+    }
+
+    private fun sendAccidentRequestToApi() {
+        if (imageBase64.isEmpty() || binding.descriptionInput.text.isEmpty()) {
+            requireActivity().runOnUiThread {
+                binding.accidentStatus.text = "Photo and description are required!"
+            }
+            return
+        }
+
+        val payload = JSONObject()
+        payload.put("dateTime", LocalDateTime.now().toString())
+        payload.put("coordinatesX", 0)
+        payload.put("coordinatesY", 0)
+        payload.put("accidentType", binding.spinner.selectedItem)
+        payload.put("username", app.username)
+        payload.put("text", binding.descriptionInput.text)
+        payload.put("photo", imageBase64)
+
+        val json: MediaType = "application/json; charset=utf-8".toMediaType()
+        val requestBody: RequestBody = payload.toString().toRequestBody(json)
+
+        val request = Request.Builder()
+            .post(requestBody)
+            .url(MyApplication.DATABASE_API + "/new-accidents")
+            .build()
+        app.client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                requireActivity().runOnUiThread {
+                    binding.accidentStatus.text = "Submission failed. Try again!"
+                }
+                println(e.message)
+                println(e.toString())
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.code == 201)
+                    requireActivity().supportFragmentManager.popBackStack()
             }
         })
     }
