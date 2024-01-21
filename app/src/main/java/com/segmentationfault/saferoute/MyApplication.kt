@@ -18,9 +18,12 @@ class MyApplication : Application() {
 
         // AMADEJ
         const val RECOGNITION_API = "http://192.168.1.5:5000/detect"
-//        const val DATABASE_API = "http://192.168.1.5:3080"
+        // const val DATABASE_API = "http://192.168.1.5:3080"
 
         // MOK
-        const val DATABASE_API = "http://192.168.73.188:3080"
+        // const val DATABASE_API = "http://192.168.73.188:3080"
+
+        // MIHA
+        const val DATABASE_API = "http://192.168.56.1:3080"
     }
 }

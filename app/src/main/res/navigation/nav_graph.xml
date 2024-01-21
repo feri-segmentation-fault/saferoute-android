@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
     app:startDestination="@id/mainFragment">
 
@@ -44,6 +45,9 @@
         <action
             android:id="@+id/action_newAccidentFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_newAccidentFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
         android:id="@+id/accidentsFragment"
@@ -56,4 +60,13 @@
             android:id="@+id/action_accidentsFragment_to_newAccidentFragment"
             app:destination="@id/newAccidentFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.segmentationfault.saferoute.fragment.StatisticsFragment"
+        android:label="StatisticsFragment" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.segmentationfault.saferoute.fragment.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
 </navigation>
