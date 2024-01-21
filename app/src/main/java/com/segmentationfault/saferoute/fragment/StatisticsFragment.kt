@@ -2,23 +2,30 @@ package com.segmentationfault.saferoute.fragment
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.LegendEntry
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.segmentationfault.saferoute.MyApplication
 import com.segmentationfault.saferoute.databinding.FragmentStatisticsBinding
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Request
+import okhttp3.Response
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
 
 class StatisticsFragment : Fragment() {
 
@@ -38,20 +45,39 @@ class StatisticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupChart()
+
+        // listener for spinner changes
+        binding.spinnerOptions.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View?,
+                position: Int,
+                id: Long
+            ) {
+                // Call your function here with the selected item's value
+                val selectedValue = parentView?.getItemAtPosition(position).toString()
+                getStatisticsFromApi(selectedValue)
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>?) {
+            }
+        }
+    }
+
+    private fun setupChart() {
         // get barChart
         val barChart = binding.barChart
 
         // add style to barChart
-        barChart.setMaxVisibleValueCount(6) // if more then 6 entries are displayed, no values will be drawn
+        barChart.setMaxVisibleValueCount(4) // if more then 6 entries are displayed, no values will be drawn
         barChart.setDrawBarShadow(false)
         barChart.setDrawValueAboveBar(true)
 
         val xAxis = barChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.textSize = 12f
+        xAxis.labelCount = 0
         xAxis.setDrawGridLines(false)
-        xAxis.valueFormatter = IndexAxisValueFormatter(listOf("Summer", "Spring", "Fall", "Winter"))
-        xAxis.granularity = 1f // controls interval between axis values
 
         val leftAxis = barChart.axisLeft
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
@@ -66,28 +92,84 @@ class StatisticsFragment : Fragment() {
 
         val legend = barChart.legend
         legend.isEnabled = true
-        legend.orientation = Legend.LegendOrientation.HORIZONTAL
+        legend.form = Legend.LegendForm.SQUARE
+        legend.textSize = 10f
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+        legend.orientation = Legend.LegendOrientation.VERTICAL
+        legend.xOffset = 50f
+        legend.setDrawInside(true)
 
         val description = barChart.description
         description.isEnabled = false
+    }
 
-        // setup chart entries
-        val entries = ArrayList<BarEntry>()
-        entries.add(BarEntry(0f, 1100f))  // Summer
-        entries.add(BarEntry(1f, 550f))   // Spring
-        entries.add(BarEntry(2f, 800f))   // Fall
-        entries.add(BarEntry(3f, 2000f))  // Winter
+    private fun getStatisticsFromApi(apiRoute: String) {
+        val url = MyApplication.DATABASE_API + "/common-stats/" + apiRoute.replace(' ', '-').lowercase()
+        Log.d("StatisticsFragment", "API call to $url")
 
-        // create BarDataSet with entries
-        val barDataSet = BarDataSet(entries, "Car Crashes")
-        barDataSet.colors = ColorTemplate.MATERIAL_COLORS.toList()
-        barDataSet.valueTextSize = 18f
+        val request = Request.Builder()
+            .get()
+            .url(url)
+            .build()
+        app.client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("StatisticsFragment", "API Call Failure", e)
+            }
 
-        // create and set BarData
-        val barData = BarData(barDataSet)
-        barChart.data = barData
+            override fun onResponse(call: Call, response: Response) {
+                if (response.code != 200) {
+                    Log.e("StatisticsFragment", "API Call Error: ${response.code}")
+                    return
+                }
 
-        // refresh and apply changes
-        barChart.invalidate()
+                val responseBody = response.body
+                if (responseBody != null) {
+                    val res = JSONObject(responseBody.string())
+                    Log.d("StatisticsFragment", "API call Success")
+                    createChartFromData(res, apiRoute)
+                } else {
+                    Log.e("StatisticsFragment", "API Call Error: Empty response body")
+                }
+            }
+        })
+    }
+
+    private fun createChartFromData(data: JSONObject, title: String) {
+        try {
+            val keysList = data.keys().asSequence().toList()
+            val values = keysList.map { data.getInt(it) }
+
+            // update
+            val barChart = binding.barChart
+            barChart.axisLeft.axisMaximum = values.max().toFloat() + 400f
+
+            // Create BarChart entries
+            val entries = values.mapIndexed { index, value -> BarEntry(index.toFloat(), value.toFloat()) }
+
+            // create BarDataSet with entries
+            val barDataSet = BarDataSet(entries, title.replace('-', ' ').uppercase())
+            val colors = ColorTemplate.MATERIAL_COLORS.toList()
+            barDataSet.colors = colors
+            barDataSet.valueTextSize = 18f
+
+            // update legend entries
+            val legendEntries = keysList.mapIndexed { index, key ->
+                LegendEntry().apply {
+                    formColor = colors[index % colors.size]
+                    label = key
+                }
+            }
+            barChart.legend.setCustom(legendEntries)
+
+            // create and set BarData
+            val barData = BarData(barDataSet)
+            barChart.data = barData
+
+            barChart.invalidate()
+
+        } catch (e: JSONException) {
+            Log.e("StatisticsFragment", "JSON Parsing Error", e)
+        }
     }
 }
