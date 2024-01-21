@@ -50,6 +50,9 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
 
     private var imageBase64 = ""
 
+    private var latitudeSimulated: Double? = null
+    private var longitudeSimulated: Double? = null
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,8 +91,19 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
             requestDataFromApi(uri)
         }
 
+        setFragmentResultListener("resultFromMapXY") { _, bundle ->
+            latitudeSimulated = bundle.getDouble("latitude", 0.0)
+            longitudeSimulated = bundle.getDouble("longitude", 0.0)
+
+            Log.d("ResultXY", "Received result: Latitude=$latitudeSimulated, Longitude=$longitudeSimulated")
+        }
+
         binding.submitButton.setOnClickListener {
             sendAccidentRequestToApi()
+        }
+
+        binding.selectLocationButton.setOnClickListener {
+            openMap()
         }
 
         ArrayAdapter.createFromResource(
@@ -178,8 +192,14 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location ->
             val payload = JSONObject()
             payload.put("dateTime", LocalDateTime.now().toString())
-            payload.put("coordinatesX", location.latitude)
-            payload.put("coordinatesY", location.longitude)
+            // SIMULATED VS NORMAL LOCATION
+            if (latitudeSimulated != null && longitudeSimulated != null) {
+                payload.put("coordinatesX", latitudeSimulated)
+                payload.put("coordinatesY", longitudeSimulated)
+            } else {
+                payload.put("coordinatesX", location.latitude)
+                payload.put("coordinatesY", location.longitude)
+            }
             payload.put("accidentType", binding.spinner.selectedItem)
             payload.put("username", app.username)
             payload.put("text", binding.descriptionInput.text)
@@ -204,7 +224,12 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
                 override fun onResponse(call: Call, response: Response) {
                     if (response.code == 201) {
                         requireActivity().supportFragmentManager.popBackStack()
-                        createNotificationNewAccident(location.latitude, location.longitude)
+                        if (latitudeSimulated != null && longitudeSimulated != null) {
+                            createNotificationNewAccident(latitudeSimulated!!, longitudeSimulated!!)
+                        } else {
+                            createNotificationNewAccident(location.latitude, location.longitude)
+                        }
+
                     }
                 }
             })
@@ -214,5 +239,9 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
     private fun createNotificationNewAccident(latitude: Double, longitude: Double) {
         val ac = activity as MainActivity
         ac.createNotificationNewAccident("Accidents", "New accident added. Check it out!", latitude, longitude)
+    }
+
+    private fun openMap() {
+        findNavController().navigate(R.id.action_newAccidentFragment_to_mapFragment)
     }
 }
