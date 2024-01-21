@@ -66,14 +66,6 @@ class MyApplication : Application(), SensorEventListener {
         const val CLIENT_ID: String = "android-app"
     }
 
-    private fun floatToByteArray(value: Float): ByteArray {
-        val buffer = ByteBuffer.allocate(Float.SIZE_BYTES)
-
-        buffer.putFloat(value)
-
-        return buffer.array()
-    }
-
     private fun mqttSendMessage(topic: String, messageInput: String) {
         try {
             val persistance = MemoryPersistence()
@@ -95,15 +87,15 @@ class MyApplication : Application(), SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if (username != "") {
-            if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
-                x = event.values[0]
-                y = event.values[1]
-                if (x > 1) {
-                    mqttSendMessage("accelerationx", x.toString())
-                }
-            }
-        }
+//        if (username != "") {
+//            if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
+//                x = event.values[0]
+//                y = event.values[1]
+//                if (x > 1) {
+//                    mqttSendMessage("accelerationX", x.toString())
+//                }
+//            }
+//        }
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, p1: Int) {
