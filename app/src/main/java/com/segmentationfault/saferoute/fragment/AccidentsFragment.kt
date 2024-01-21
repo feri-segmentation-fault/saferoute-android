@@ -75,6 +75,19 @@ class AccidentsFragment : Fragment(R.layout.fragment_accidents) {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // setup Info
+        val latitude = arguments?.getDouble("latitude")
+        val longitude = arguments?.getDouble("longitude")
+
+        if (latitude != null && longitude != null) {
+            defaultLocation = GeoPoint(latitude, longitude)
+            mapController.setCenter(defaultLocation)
+        }
+    }
+
     private fun getAccidentsFromApi() {
         // binding.statusText.text = "Retrieving accidents..."
 

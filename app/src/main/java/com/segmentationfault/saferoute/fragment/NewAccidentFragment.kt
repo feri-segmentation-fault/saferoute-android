@@ -24,6 +24,7 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.segmentationfault.saferoute.MainActivity
 import com.segmentationfault.saferoute.MyApplication
 import com.segmentationfault.saferoute.R
 import com.segmentationfault.saferoute.databinding.FragmentNewAccidentBinding
@@ -201,10 +202,17 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    if (response.code == 201)
+                    if (response.code == 201) {
                         requireActivity().supportFragmentManager.popBackStack()
+                        createNotificationNewAccident(location.latitude, location.longitude)
+                    }
                 }
             })
         }
+    }
+
+    private fun createNotificationNewAccident(latitude: Double, longitude: Double) {
+        val ac = activity as MainActivity
+        ac.createNotificationNewAccident("Accidents", "New accident added. Check it out!", latitude, longitude)
     }
 }
