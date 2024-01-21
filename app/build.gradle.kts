@@ -69,4 +69,5 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.10.1")
     implementation ("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
 
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

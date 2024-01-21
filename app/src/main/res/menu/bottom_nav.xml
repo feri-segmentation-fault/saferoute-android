@@ -15,4 +15,9 @@
         android:title="Accidents"
         android:icon="@drawable/earth"
         android:menuCategory="@+id/accidentsFragment" />
+    <item
+        android:id="@+id/statisticsFragment"
+        android:title="Statistics"
+        android:icon="@drawable/chart"
+        android:menuCategory="@+id/statisticsFragment" />
 </menu>
