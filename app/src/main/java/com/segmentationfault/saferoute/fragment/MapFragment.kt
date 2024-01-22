@@ -41,7 +41,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import java.io.IOException
 
 
-class MapFragment : Fragment() {
+class MapFragment : Fragment(R.layout.fragment_map) {
 
     private lateinit var binding: FragmentMapBinding
     private lateinit var app: MyApplication

@@ -188,6 +188,9 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            requireActivity().runOnUiThread {
+                binding.accidentStatus.text = "Location permission not granted!"
+            }
             return
         }
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location ->

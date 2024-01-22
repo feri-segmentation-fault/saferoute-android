@@ -1,21 +1,25 @@
 package com.segmentationfault.saferoute.fragment
 
 import android.Manifest
+import android.R.attr.bitmap
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
+import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import com.segmentationfault.saferoute.MyApplication
 import com.segmentationfault.saferoute.R
@@ -31,7 +35,6 @@ import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
@@ -119,16 +122,27 @@ class AccidentsFragment : Fragment(R.layout.fragment_accidents) {
 
                 val gson = Gson()
                 val res = JSONArray(response.body!!.string())
+                // println("HELLO")
+                // println(res.length())
 
                 for (i in 0 until res.length()) {
                     Log.i("test", res.getJSONObject(i).toString())
                     val accidentJson = res.getJSONObject(i).toString()
+//                    println(accidentJson.toString())
                     val accident = gson.fromJson(accidentJson, Accident::class.java)
                     val markerPosition = GeoPoint(accident.latitude, accident.longitude)
                     val marker = Marker(map)
                     marker.position = markerPosition
                     marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
                     marker.title = accident.description
+
+//                    println(accident.photoB64)
+//
+//                    if (accident.photoB64 !== "") {
+//                        val decodedString: ByteArray = Base64.decode(accident.photoB64, Base64.DEFAULT)
+//                        val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+//                        marker.image = decodedByte.toDrawable(resources);
+//                    }
 
                     map.overlays.add(marker)
                 }

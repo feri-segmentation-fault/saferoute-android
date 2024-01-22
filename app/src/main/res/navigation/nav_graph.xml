@@ -70,9 +70,7 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.segmentationfault.saferoute.fragment.MapFragment"
-        android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
-
+        android:label="MapFragment" />
     <fragment
         android:id="@+id/accelerationListFragment"
         android:name="com.segmentationfault.saferoute.fragment.AccelerationList"

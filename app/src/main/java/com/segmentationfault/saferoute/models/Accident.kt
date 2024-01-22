@@ -10,6 +10,8 @@ data class Accident (
     @SerializedName("username") val username: String,
     @SerializedName("text") val description: String,
     @SerializedName("accidentType") val accidentType: String,
-    @SerializedName("photoPath") val photoPath: String)
+    @SerializedName("photoPath") val photoPath: String,
+    @SerializedName("photoB64") val photoB64: String
+)
 
 // TODO photo, not photo path
