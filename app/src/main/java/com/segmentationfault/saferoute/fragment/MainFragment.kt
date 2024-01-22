@@ -146,14 +146,21 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                      binding.blockchainStatus.text = "Retrieving success."
                 }
 
-                val gson = Gson()
                 val res = JSONArray(response.body!!.string())
 
-                val blockJson = res.getJSONObject(res.length() - 1).toString()
-                val block = gson.fromJson(blockJson, Block::class.java)
+                if (res.length() > 0) {
+                    val blockJson = res.getJSONObject(res.length() - 1).toString()
+                    val gson = Gson()
+                    val block = gson.fromJson(blockJson, Block::class.java)
 
-                requireActivity().runOnUiThread {
-                    binding.blockchainStatus.text = "Latest block:\nusername: ${block.username}\nlatitude: ${block.latitude}, longtitude: ${block.longitude}"
+                    requireActivity().runOnUiThread {
+                        binding.blockchainStatus.text =
+                            "Latest block:\nusername: ${block.username}\nlatitude: ${block.latitude}, longtitude: ${block.longitude}"
+                    }
+                } else {
+                    requireActivity().runOnUiThread {
+                        binding.blockchainStatus.text = "No blocks yet."
+                    }
                 }
             }
         })
