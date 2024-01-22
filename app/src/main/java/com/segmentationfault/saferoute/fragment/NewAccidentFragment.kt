@@ -99,6 +99,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
         }
 
         binding.submitButton.setOnClickListener {
+            sendAccidentRequestToBlockchain()
             sendAccidentRequestToApi()
         }
 
@@ -162,7 +163,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
                 val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
 
                 requireActivity().runOnUiThread {
-                    binding.statusText.text = "Detection finished. Found " + jsonObject.getInt("num") + " car/s."
+                    binding.statusText.text = "Detection finished.\nFound " + jsonObject.getInt("num") + " car/s."
                     binding.captureImage.setImageBitmap(decodedByte)
                     binding.captureImage.rotation = 0f
                 }
@@ -231,6 +232,57 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
                         }
 
                     }
+                }
+            })
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun sendAccidentRequestToBlockchain() {
+//        if (imageBase64.isEmpty() || binding.descriptionInput.text.isEmpty())
+//            return
+
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location ->
+            val payload = JSONObject()
+            payload.put("dateTime", LocalDateTime.now().toString())
+            // SIMULATED VS NORMAL LOCATION
+            if (latitudeSimulated != null && longitudeSimulated != null) {
+                payload.put("latidute", latitudeSimulated)
+                payload.put("longitude", longitudeSimulated)
+            } else {
+                payload.put("latidute", location.latitude)
+                payload.put("longitude", location.longitude)
+            }
+            payload.put("username", app.username)
+            payload.put("dense", 0)
+            payload.put("sparse", 0)
+
+            val json: MediaType = "application/json; charset=utf-8".toMediaType()
+            val requestBody: RequestBody = payload.toString().toRequestBody(json)
+
+            val request = Request.Builder()
+                .post(requestBody)
+                .url(MyApplication.BLOCKCHAIN_API + "/addData")
+                .build()
+            app.client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    println(e.message)
+                    println(e.toString())
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    if (response.code == 200)
+                        println("Successfully added to blockchain!")
                 }
             })
         }

@@ -54,10 +54,11 @@ class MyApplication : Application(), SensorEventListener {
 
         // AMADEJ
         const val RECOGNITION_API = "http://192.168.1.5:5000/detect"
-//        const val DATABASE_API = "http://192.168.1.5:3080"
+        const val DATABASE_API = "http://192.168.1.5:3080"
+        const val BLOCKCHAIN_API = "http://192.168.1.5:7234/api/Blockchain"
 
         // MOK
-        const val DATABASE_API = "http://192.168.1.10:3080"
+//        const val DATABASE_API = "http://192.168.1.10:3080"
 
         const val MQTT_BROKER_URL: String = "ssl://fb18f775ad6a416da588f836c40332b4.s2.eu.hivemq.cloud:8883"
         const val MQTT_USERNAME = "hivemq.webclient.1705871129963"

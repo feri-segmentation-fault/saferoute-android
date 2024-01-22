@@ -57,7 +57,7 @@
         android:id="@+id/accelerationTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:text="Acceleration Meter"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -119,5 +119,25 @@
         android:text="Submit"
         app:layout_constraintBaseline_toBaselineOf="@+id/limitInput"
         app:layout_constraintStart_toEndOf="@+id/limitInput" />
+
+    <TextView
+        android:id="@+id/blockchainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Blockchain"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewAccelerationsButton" />
+
+    <TextView
+        android:id="@+id/blockchainStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blockchainTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

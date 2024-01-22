@@ -1,19 +1,26 @@
 package com.segmentationfault.saferoute.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.segmentationfault.saferoute.MyApplication
 import com.segmentationfault.saferoute.MySharedPreferences
 import com.segmentationfault.saferoute.R
 import com.segmentationfault.saferoute.databinding.FragmentMainBinding
+import com.segmentationfault.saferoute.models.Accident
+import com.segmentationfault.saferoute.models.Block
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Request
 import okhttp3.Response
+import org.json.JSONArray
 import org.json.JSONObject
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.overlay.Marker
 import java.io.IOException
 
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -34,6 +41,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         getCurrentUser()
+        getBlocksFromBlockchain()
 
         val submitLimitBtn = binding.submitLimitBtn
         val viewAccelerationsBtn = binding.viewAccelerationsButton
@@ -52,7 +60,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         viewAccelerationsBtn.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_accelerationListFragment)
         }
-
     }
 
     private fun getCurrentUser() {
@@ -106,6 +113,48 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     app.cookie = ""
 
                 getCurrentUser()
+            }
+        })
+    }
+
+    private fun getBlocksFromBlockchain() {
+         binding.blockchainStatus.text = "Reading blockchain..."
+
+        val request = Request.Builder()
+            .get()
+            .url(MyApplication.BLOCKCHAIN_API + "/getData")
+            .build()
+        app.client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                requireActivity().runOnUiThread {
+                    binding.blockchainStatus.text = "Retrieving failed."
+                }
+
+                println(e.message)
+                println(e.toString())
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.code != 200) {
+                    requireActivity().runOnUiThread {
+                         binding.blockchainStatus.text = "Retrieving failed."
+                    }
+                    return
+                }
+
+                requireActivity().runOnUiThread {
+                     binding.blockchainStatus.text = "Retrieving success."
+                }
+
+                val gson = Gson()
+                val res = JSONArray(response.body!!.string())
+
+                val blockJson = res.getJSONObject(res.length() - 1).toString()
+                val block = gson.fromJson(blockJson, Block::class.java)
+
+                requireActivity().runOnUiThread {
+                    binding.blockchainStatus.text = "Latest block:\nusername: ${block.username}\nlatitude: ${block.latitude}, longtitude: ${block.longitude}"
+                }
             }
         })
     }
