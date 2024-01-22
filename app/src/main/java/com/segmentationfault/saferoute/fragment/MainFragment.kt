@@ -2,9 +2,11 @@ package com.segmentationfault.saferoute.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.segmentationfault.saferoute.MyApplication
+import com.segmentationfault.saferoute.MySharedPreferences
 import com.segmentationfault.saferoute.R
 import com.segmentationfault.saferoute.databinding.FragmentMainBinding
 import okhttp3.Call
@@ -32,6 +34,25 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         getCurrentUser()
+
+        val submitLimitBtn = binding.submitLimitBtn
+        val viewAccelerationsBtn = binding.viewAccelerationsButton
+        val limitInput = binding.limitInput
+
+        val prefs = MySharedPreferences(requireContext())
+        val accelerationLimit = prefs.getFloat("acclmt", 20f)
+
+        limitInput.setText(accelerationLimit.toString())
+
+        submitLimitBtn.setOnClickListener {
+            prefs.saveFloat("acclmt", limitInput.text.toString().toFloat())
+            limitInput.setText(limitInput.text.toString())
+        }
+
+        viewAccelerationsBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_accelerationListFragment)
+        }
+
     }
 
     private fun getCurrentUser() {

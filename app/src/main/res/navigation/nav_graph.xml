@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_mainFragment_to_accidentsFragment"
             app:destination="@id/accidentsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_accelerationListFragment"
+            app:destination="@id/accelerationListFragment" />
     </fragment>
     <fragment
         android:id="@+id/captureFragment"
@@ -69,4 +72,11 @@
         android:name="com.segmentationfault.saferoute.fragment.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
+
+    <fragment
+        android:id="@+id/accelerationListFragment"
+        android:name="com.segmentationfault.saferoute.fragment.AccelerationList"
+        android:label="AccelerationList" >
+    </fragment>
+
 </navigation>

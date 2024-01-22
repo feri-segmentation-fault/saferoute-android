@@ -23,7 +23,6 @@ class MyApplication : Application(), SensorEventListener {
     private var sensorManager: SensorManager? = null
     private var accelerometer: Sensor? = null
 
-
     private var x: Float = 0f
     private var y: Float = 0f
 
@@ -87,15 +86,21 @@ class MyApplication : Application(), SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-//        if (username != "") {
-//            if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
-//                x = event.values[0]
-//                y = event.values[1]
-//                if (x > 1) {
-//                    mqttSendMessage("accelerationX", x.toString())
-//                }
-//            }
-//        }
+        if (username != "") {
+            val prefs = MySharedPreferences(this)
+            val accelerationLimit = prefs.getFloat("acclmt", 20f)
+            if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
+                x = event.values[0]
+                y = event.values[1]
+                if (x > accelerationLimit) {
+                    mqttSendMessage("acceleration", x.toString())
+                }
+
+                if (y > accelerationLimit) {
+                    mqttSendMessage("acceleration", "$y;$username")
+                }
+            }
+        }
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, p1: Int) {
