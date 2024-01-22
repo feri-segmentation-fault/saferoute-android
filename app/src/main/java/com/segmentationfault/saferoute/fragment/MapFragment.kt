@@ -47,7 +47,7 @@ class MapFragment : Fragment() {
     private lateinit var app: MyApplication
     private lateinit var mapController: IMapController
     private lateinit var map: MapView
-    private val defaultZoom = 5
+    private val defaultZoom = 17.5
     private var defaultLocation: GeoPoint? = GeoPoint(46.5547, 15.6459)
     private var marker: Marker? = null
 
