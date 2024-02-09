@@ -89,11 +89,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun updateToolbar() {
         requireActivity().runOnUiThread {
             if (app.username == "") {
-                binding.welcomeText.text = "Welcome!"
+                binding.welcomeText.text = getString(R.string.main_welcome)
                 binding.logoutButton.visibility = View.INVISIBLE
                 binding.openLoginButton.visibility = View.VISIBLE
             } else {
-                binding.welcomeText.text = "Welcome, " + app.username + "!"
+                binding.welcomeText.text = getString(R.string.main_welcome_username, app.username)
                 binding.logoutButton.visibility = View.VISIBLE
                 binding.openLoginButton.visibility = View.INVISIBLE
             }
@@ -118,7 +118,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun getBlocksFromBlockchain() {
-         binding.blockchainStatus.text = "Reading blockchain..."
+         binding.blockchainStatus.text = getString(R.string.blockchain_status_reading)
 
         val request = Request.Builder()
             .get()
@@ -127,7 +127,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         app.client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 requireActivity().runOnUiThread {
-                    binding.blockchainStatus.text = "Retrieving failed."
+                    binding.blockchainStatus.text = getString(R.string.blockchain_status_failed)
                 }
 
                 println(e.message)
@@ -137,13 +137,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             override fun onResponse(call: Call, response: Response) {
                 if (response.code != 200) {
                     requireActivity().runOnUiThread {
-                         binding.blockchainStatus.text = "Retrieving failed."
+                         binding.blockchainStatus.text = getString(R.string.blockchain_status_failed)
                     }
                     return
                 }
 
                 requireActivity().runOnUiThread {
-                     binding.blockchainStatus.text = "Retrieving success."
+                     binding.blockchainStatus.text = getString(R.string.blockchain_status_success)
                 }
 
                 val res = JSONArray(response.body!!.string())
@@ -155,11 +155,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
                     requireActivity().runOnUiThread {
                         binding.blockchainStatus.text =
-                            "Latest block:\nusername: ${block.username}\nlatitude: ${block.latitude}, longtitude: ${block.longitude}"
+                            getString(R.string.blockchain_block, block.username, block.latitude, block.longitude)
                     }
                 } else {
                     requireActivity().runOnUiThread {
-                        binding.blockchainStatus.text = "No blocks yet."
+                        binding.blockchainStatus.text = getString(R.string.blockchain_status_empty)
                     }
                 }
             }

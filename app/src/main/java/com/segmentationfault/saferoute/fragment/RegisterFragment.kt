@@ -38,7 +38,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private fun sendRegisterToApi() {
         if (binding.passwordInput.text.toString() != binding.repeatPasswordInput.text.toString()) {
             requireActivity().runOnUiThread {
-                binding.registerStatus.text = "Passwords do not match!"
+                binding.registerStatus.text = getString(R.string.register_passwords_do_not_match)
             }
             return
         }
@@ -58,7 +58,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         app.client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 requireActivity().runOnUiThread {
-                    binding.registerStatus.text = "Registration failed. Try again!"
+                    binding.registerStatus.text = getString(R.string.register_failed)
                 }
             }
 
@@ -67,7 +67,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     parentFragmentManager.popBackStack()
                 } else {
                     requireActivity().runOnUiThread {
-                        binding.registerStatus.text = "Registration failed. Try again!"
+                        binding.registerStatus.text = getString(R.string.register_failed)
                     }
                 }
             }

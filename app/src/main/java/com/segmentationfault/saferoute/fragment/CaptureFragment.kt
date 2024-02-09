@@ -52,7 +52,7 @@ class CaptureFragment : Fragment(R.layout.fragment_capture) {
 
     private fun startCamera() {
         if (!isCameraPermissionGranted()) {
-            Toast.makeText(requireContext(), "No camera permission", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.capture_permission_missing), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -95,7 +95,7 @@ class CaptureFragment : Fragment(R.layout.fragment_capture) {
             ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    Toast.makeText(requireContext(), "Photo capture failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.capture_failed), Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
@@ -122,7 +122,7 @@ class CaptureFragment : Fragment(R.layout.fragment_capture) {
             )
             { isGranted ->
                 if (!isGranted)
-                    Toast.makeText(requireContext(), "Permission request denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.capture_permission_denied), Toast.LENGTH_SHORT).show()
 
                 startCamera()
             }

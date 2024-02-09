@@ -117,7 +117,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
         }
 
         if (app.username == "") {
-            Toast.makeText(requireContext(), "Log in to submit accidents!", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), getString(R.string.new_accident_log_in_warning), Toast.LENGTH_LONG).show()
             binding.submitButton.isEnabled = false
             binding.openCaptureButton.isEnabled = false
             binding.spinner.isEnabled = false
@@ -126,7 +126,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
     }
 
     private fun requestDataFromApi(photoUri: Uri) {
-        binding.statusText.text = "Analyzing..."
+        binding.statusText.text = getString(R.string.photo_analysis)
 
         val bytes: ByteArray
         requireActivity().contentResolver.openInputStream(photoUri).use { inputStream ->
@@ -147,7 +147,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
         app.client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 requireActivity().runOnUiThread {
-                    binding.statusText.text = "Analysis failed..."
+                    binding.statusText.text = getString(R.string.photo_analysis_failed)
                 }
 
                 println(e.message)
@@ -163,7 +163,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
                 val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
 
                 requireActivity().runOnUiThread {
-                    binding.statusText.text = "Detection finished.\nFound " + jsonObject.getInt("num") + " car/s."
+                    binding.statusText.text = resources.getQuantityText(R.plurals.photo_analysis_finished, jsonObject.getInt("num"))
                     binding.captureImage.setImageBitmap(decodedByte)
                     binding.captureImage.rotation = 0f
                 }
@@ -175,7 +175,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
     private fun sendAccidentRequestToApi() {
         if (imageBase64.isEmpty() || binding.descriptionInput.text.isEmpty()) {
             requireActivity().runOnUiThread {
-                binding.accidentStatus.text = "Photo and description are required!"
+                binding.accidentStatus.text = getString(R.string.new_accident_status_requirement)
             }
             return
         }
@@ -189,7 +189,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             requireActivity().runOnUiThread {
-                binding.accidentStatus.text = "Location permission not granted!"
+                binding.accidentStatus.text = getString(R.string.new_accident_status_location)
             }
             return
         }
@@ -219,7 +219,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
             app.client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     requireActivity().runOnUiThread {
-                        binding.accidentStatus.text = "Submission failed. Try again!"
+                        binding.accidentStatus.text = getString(R.string.new_accident_status_failed)
                     }
                     println(e.message)
                     println(e.toString())

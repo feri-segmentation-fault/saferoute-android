@@ -106,7 +106,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         if (marker == null) {
             marker = Marker(map)
             marker!!.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-            marker!!.title = "Selected Location"
+            marker!!.title = getString(R.string.map_marker_title)
             map.overlays.add(marker)
         }
         marker!!.position = geoPoint
@@ -126,7 +126,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             setFragmentResult("resultFromMapXY", resultBundle)
             parentFragmentManager.popBackStack()
         } else {
-            Toast.makeText(requireContext(), "No location selected", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.map_no_location_selected), Toast.LENGTH_SHORT).show()
         }
     }
 }

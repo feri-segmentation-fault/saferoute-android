@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:text="Repeat password:"
+        android:text="@string/placeholder_repeat_password"
+        android:labelFor="@+id/repeatPasswordInput"
         app:layout_constraintBaseline_toBaselineOf="@+id/repeatPasswordInput"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -24,7 +25,8 @@
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordInput"
+        android:autofillHints="password" />
 
     <EditText
         android:id="@+id/emailInput"
@@ -33,7 +35,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="textWebEmailAddress"
+        android:autofillHints="emailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleRegister" />
 
@@ -42,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:text="Email:"
+        android:text="@string/placeholder_email"
         app:layout_constraintBaseline_toBaselineOf="@+id/emailInput"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -51,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
-        android:text="Back"
+        android:text="@string/back"
         app:layout_constraintBaseline_toBaselineOf="@+id/registerButton"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -61,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="50dp"
-        android:text="Create an acccount"
+        android:text="@string/title_register"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +75,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:text="Username:"
+        android:text="@string/placeholder_username"
+        android:labelFor="@+id/usernameInput"
         app:layout_constraintBaseline_toBaselineOf="@+id/usernameInput"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -81,7 +85,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:text="Password:"
+        android:text="@string/placeholder_password"
+        android:labelFor="@+id/passwordInput"
         app:layout_constraintBaseline_toBaselineOf="@+id/passwordInput"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -91,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="70dp"
-        android:text="Register"
+        android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerStatus" />
 
@@ -109,7 +114,8 @@
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameInput" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameInput"
+        android:autofillHints="password" />
 
     <EditText
         android:id="@+id/usernameInput"
@@ -120,7 +126,8 @@
         android:ems="10"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailInput" />
+        app:layout_constraintTop_toBottomOf="@+id/emailInput"
+        android:autofillHints="username" />
 
     <TextView
         android:id="@+id/registerStatus"

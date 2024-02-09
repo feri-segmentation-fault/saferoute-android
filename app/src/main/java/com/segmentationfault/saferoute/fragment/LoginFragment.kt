@@ -55,7 +55,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         app.client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 requireActivity().runOnUiThread {
-                    binding.loginStatus.text = "Login failed. Try again!"
+                    binding.loginStatus.text = getString(R.string.login_status_failed)
                 }
             }
 
@@ -65,7 +65,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     parentFragmentManager.popBackStack()
                 } else {
                     requireActivity().runOnUiThread {
-                        binding.loginStatus.text = "Login failed. Try again!"
+                        binding.loginStatus.text = getString(R.string.login_status_failed)
                     }
                 }
             }

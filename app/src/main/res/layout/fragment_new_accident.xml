@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:text="Accident type"
+        android:text="@string/placeholder_accident_type"
         app:layout_constraintBaseline_toBaselineOf="@+id/spinner"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="50dp"
-        android:text="Submit new accident"
+        android:text="@string/title_new_accident"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
         android:layout_marginEnd="45dp"
-        android:text="Capture an image"
+        android:text="@string/capture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusText" />
 
@@ -71,7 +71,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:text="Description"
+        android:text="@string/placeholder_description"
+        android:labelFor="@+id/descriptionInput"
         app:layout_constraintBaseline_toBaselineOf="@+id/descriptionInput"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -92,7 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Submit"
+        android:text="@string/submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/accidentStatus" />
@@ -102,7 +103,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="NOTE: Your username, time and location of the capture will be visible to other users."
+        android:text="@string/new_accident_note"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

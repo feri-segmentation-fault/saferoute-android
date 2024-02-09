@@ -1,21 +1,64 @@
 <resources>
+    <string name="acceleration_description">Keep track of your accelerations, and reflect back on when you might have driven too aggressively. Set your limit in m/s, go for a drive, and then see if you exceeded it</string>
+    <string name="acceleration_view">View your accelerations</string>
     <string name="app_name">SafeRoute</string>
-    <string-array name="accident_type_array">
-        <item>BOČNO TRČENJE</item>
-        <item>ČELNO TRČENJE</item>
-        <item>NALETNO TRČENJE</item>
-        <item>OPLAŽENJE</item>
-        <item>OSTALO</item>
-        <item>POVOŽENJE PEŠCA</item>
-        <item>POVOŽENJE ŽIVALI</item>
-        <item>PREVRNITEV VOZILA</item>
-        <item>TRČENJE V OBJEKT</item>
-        <item>TRČENJE V STOJEČE / PARKIRANO VOZILO</item>
-    </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="statistics">STATISTICS</string>
-    <string name="select_location">Select Location</string>
+    <string name="back">Back</string>
+    <string name="blockchain_block">Latest block:\nusername: %1$s\nlatitude: %2$d, longitude: %3$d</string>
+    <string name="blockchain_status_empty">No blocks yet.</string>
+    <string name="blockchain_status_failed">Retrieving failed.</string>
+    <string name="blockchain_status_reading">Reading blockchain…</string>
+    <string name="blockchain_status_success">Retrieving success.</string>
+    <string name="capture">Capture</string>
+    <string name="capture_failed">Photo capture failed</string>
+    <string name="capture_permission_denied">Permission request denied</string>
+    <string name="capture_permission_missing">No camera permission</string>
+    <string name="login">Login</string>
+    <string name="login_status_failed">Login failed. Try again!</string>
+    <string name="logout">Logout</string>
+    <string name="main_welcome">Welcome!</string>
+    <string name="main_welcome_username">"Welcome, %s!"</string>
+    <string name="map_marker_title">Selected Location</string>
+    <string name="map_no_location_selected">No location selected</string>
+    <string name="new_accident_log_in_warning">Log in to submit accidents!</string>
+    <string name="new_accident_note">NOTE: Your username, time and location of the capture will be visible to other users.</string>
+    <string name="new_accident_status_failed">Submission failed. Try again!</string>
+    <string name="new_accident_status_location">Location permission not granted!</string>
+    <string name="new_accident_status_requirement">Photo and description are required!</string>
+    <string name="photo_analysis">Analyzing…</string>
+    <string name="photo_analysis_failed">Analysis failed…</string>
+    <string name="placeholder_accident_type">Accident type</string>
+    <string name="placeholder_description">Description</string>
+    <string name="placeholder_email">Email:</string>
+    <string name="placeholder_limit">Limit:</string>
+    <string name="placeholder_password">Password:</string>
+    <string name="placeholder_repeat_password">Repeat password:</string>
+    <string name="placeholder_username">Username:</string>
+    <string name="register">Register</string>
+    <string name="register_failed">Registration failed. Try again!</string>
+    <string name="register_passwords_do_not_match">Passwords do not match!</string>
+    <string name="register_prompt">Do not have an account yet?</string>
     <string name="select">SELECT</string>
     <string name="simulate_location">Simulate Location</string>
+    <string name="submit">Submit</string>
+    <string name="title_acceleration_meter">Acceleration Meter</string>
+    <string name="title_blockchain">Blockchain</string>
+    <string name="title_new_accident">Submit new accident</string>
+    <string name="title_register">Create an account</string>
+    <string name="title_statistics">Statistics</string>
+    <string-array name="accident_type_array">
+        <item>HEAD-ON COLLISION</item>
+        <item>REAR-END COLLISION</item>
+        <item>SIDE COLLISION</item>
+        <item>COLLISION INTO A STANDING / PARKED VEHICLE</item>
+        <item>COLLISION INTO AN OBJECT</item>
+        <item>COVERING</item>
+        <item>RUNNING OVER A PEDESTRIAN</item>
+        <item>RUNNING OVER AN ANIMAL</item>
+        <item>VEHICLE ROLLOVER</item>
+        <item>OTHER</item>
+    </string-array>
+    <plurals name="photo_analysis_finished">
+        <item quantity="one">Detection finished.\nFound %d car.</item>
+        <item quantity="other">Detection finished.\nFound %d cars.</item>
+    </plurals>
 </resources>
