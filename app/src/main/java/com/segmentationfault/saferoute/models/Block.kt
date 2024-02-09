@@ -1,6 +1,6 @@
-package com.segmentationfault.saferoute.models;
+package com.segmentationfault.saferoute.models
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName
 
 data class Block (
         @SerializedName("latidute") val latitude: Double,

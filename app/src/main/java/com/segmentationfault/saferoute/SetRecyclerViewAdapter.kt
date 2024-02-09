@@ -14,12 +14,11 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-class SetRecyclerViewAdapter (private val context: Context, private val accelerations: MutableList<Acceleration>):
+class SetRecyclerViewAdapter(private val context: Context, private val accelerations: MutableList<Acceleration>) :
     RecyclerView.Adapter<SetRecyclerViewAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
+        parent: ViewGroup, viewType: Int
     ): MyViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(context)
         val view: View = inflater.inflate(R.layout.acceleration_row, parent, false)

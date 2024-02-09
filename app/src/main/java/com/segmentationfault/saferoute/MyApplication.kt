@@ -9,11 +9,10 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import okhttp3.OkHttpClient
 
-import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
-import java.nio.ByteBuffer
 
 class MyApplication : Application(), SensorEventListener {
     val client = OkHttpClient()
@@ -36,9 +35,7 @@ class MyApplication : Application(), SensorEventListener {
 
             if (accelerometer != null) {
                 sensorManager?.registerListener(
-                    this,
-                    accelerometer,
-                    SensorManager.SENSOR_DELAY_NORMAL
+                    this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL
                 )
             } else {
                 // Handle case when accelerometer sensor is not available

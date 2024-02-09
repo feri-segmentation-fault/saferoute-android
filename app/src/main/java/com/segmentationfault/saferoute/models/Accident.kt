@@ -13,5 +13,3 @@ data class Accident (
     @SerializedName("photoPath") val photoPath: String,
     @SerializedName("photoB64") val photoB64: String
 )
-
-// TODO photo, not photo path

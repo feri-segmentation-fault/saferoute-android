@@ -1,9 +1,7 @@
 package com.segmentationfault.saferoute.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
@@ -11,7 +9,6 @@ import com.segmentationfault.saferoute.MyApplication
 import com.segmentationfault.saferoute.MySharedPreferences
 import com.segmentationfault.saferoute.R
 import com.segmentationfault.saferoute.databinding.FragmentMainBinding
-import com.segmentationfault.saferoute.models.Accident
 import com.segmentationfault.saferoute.models.Block
 import okhttp3.Call
 import okhttp3.Callback
@@ -19,8 +16,6 @@ import okhttp3.Request
 import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONObject
-import org.osmdroid.util.GeoPoint
-import org.osmdroid.views.overlay.Marker
 import java.io.IOException
 
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -48,12 +43,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val limitInput = binding.limitInput
 
         val prefs = MySharedPreferences(requireContext())
-        val accelerationLimit = prefs.getFloat("acclmt", 20f)
+        val accelerationLimit = prefs.getFloat("limit", 20f)
 
         limitInput.setText(accelerationLimit.toString())
 
         submitLimitBtn.setOnClickListener {
-            prefs.saveFloat("acclmt", limitInput.text.toString().toFloat())
+            prefs.saveFloat("limit", limitInput.text.toString().toFloat())
             limitInput.setText(limitInput.text.toString())
         }
 
@@ -118,7 +113,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun getBlocksFromBlockchain() {
-         binding.blockchainStatus.text = getString(R.string.blockchain_status_reading)
+        binding.blockchainStatus.text = getString(R.string.blockchain_status_reading)
 
         val request = Request.Builder()
             .get()
@@ -137,13 +132,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             override fun onResponse(call: Call, response: Response) {
                 if (response.code != 200) {
                     requireActivity().runOnUiThread {
-                         binding.blockchainStatus.text = getString(R.string.blockchain_status_failed)
+                        binding.blockchainStatus.text = getString(R.string.blockchain_status_failed)
                     }
                     return
                 }
 
                 requireActivity().runOnUiThread {
-                     binding.blockchainStatus.text = getString(R.string.blockchain_status_success)
+                    binding.blockchainStatus.text = getString(R.string.blockchain_status_success)
                 }
 
                 val res = JSONArray(response.body!!.string())
@@ -154,8 +149,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     val block = gson.fromJson(blockJson, Block::class.java)
 
                     requireActivity().runOnUiThread {
-                        binding.blockchainStatus.text =
-                            getString(R.string.blockchain_block, block.username, block.latitude, block.longitude)
+                        binding.blockchainStatus.text = getString(R.string.blockchain_block, block.username, block.latitude, block.longitude)
                     }
                 } else {
                     requireActivity().runOnUiThread {

@@ -2,7 +2,6 @@ package com.segmentationfault.saferoute.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,35 +9,17 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
-import androidx.navigation.fragment.findNavController
 import com.segmentationfault.saferoute.MyApplication
 import com.segmentationfault.saferoute.R
-import com.segmentationfault.saferoute.databinding.FragmentMainBinding
 import com.segmentationfault.saferoute.databinding.FragmentMapBinding
-import com.segmentationfault.saferoute.databinding.FragmentRegisterBinding
-import com.segmentationfault.saferoute.databinding.FragmentStatisticsBinding
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.Response
-import org.json.JSONObject
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
-import org.osmdroid.tileprovider.MapTileProviderBasic
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.TilesOverlay
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-import java.io.IOException
 
 
 class MapFragment : Fragment(R.layout.fragment_map) {
@@ -52,8 +33,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     private var marker: Marker? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentMapBinding.inflate(inflater, container, false)
         app = requireContext().applicationContext as MyApplication

@@ -1,24 +1,17 @@
 package com.segmentationfault.saferoute.fragment
 
 import android.Manifest
-import android.R.attr.bitmap
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.segmentationfault.saferoute.MyApplication
@@ -50,10 +43,8 @@ class AccidentsFragment : Fragment(R.layout.fragment_accidents) {
     private var defaultLocation: GeoPoint? = GeoPoint(46.5547, 15.6459)
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         binding = FragmentAccidentsBinding.inflate(inflater, container, false)
         app = requireContext().applicationContext as MyApplication
 
@@ -156,11 +147,9 @@ class AccidentsFragment : Fragment(R.layout.fragment_accidents) {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            val locationManager =
-                requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val locationProvider: String = LocationManager.GPS_PROVIDER
-            val lastKnownLocation: Location? =
-                locationManager.getLastKnownLocation(locationProvider)
+            val lastKnownLocation: Location? = locationManager.getLastKnownLocation(locationProvider)
 
             if (lastKnownLocation != null) {
                 val startPoint = GeoPoint(lastKnownLocation.latitude, lastKnownLocation.longitude)

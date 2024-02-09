@@ -1,11 +1,9 @@
 package com.segmentationfault.saferoute.fragment
 
 import android.Manifest
-import android.app.Application
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.location.Location
-import android.location.LocationListener
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -74,8 +72,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
             } else {
                 isImageFitToScreen = true
                 binding.captureImage.layoutParams = ConstraintLayout.LayoutParams(
-                    ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams
-                        .MATCH_PARENT
+                    ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT
                 )
                 binding.captureImage.scaleType = ImageView.ScaleType.FIT_XY
             }

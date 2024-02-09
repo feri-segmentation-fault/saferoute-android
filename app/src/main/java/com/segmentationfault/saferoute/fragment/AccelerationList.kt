@@ -1,7 +1,6 @@
 package com.segmentationfault.saferoute.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.segmentationfault.saferoute.MyApplication
-import com.segmentationfault.saferoute.R
 import com.segmentationfault.saferoute.SetRecyclerViewAdapter
 import com.segmentationfault.saferoute.databinding.FragmentAccelerationListBinding
 import com.segmentationfault.saferoute.models.Acceleration
@@ -28,8 +26,7 @@ class AccelerationList : Fragment() {
     private lateinit var app: MyApplication
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAccelerationListBinding.inflate(inflater, container, false)
         adapter = SetRecyclerViewAdapter(requireContext(), mutableListOf())
