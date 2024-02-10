@@ -49,9 +49,9 @@
         <item>HEAD-ON COLLISION</item>
         <item>REAR-END COLLISION</item>
         <item>SIDE COLLISION</item>
-        <item>COLLISION INTO A STANDING / PARKED VEHICLE</item>
+        <item>COLLISION INTO A PARKED VEHICLE</item>
         <item>COLLISION INTO AN OBJECT</item>
-        <item>COVERING</item>
+        <item>CAR SCRATCHED</item>
         <item>RUNNING OVER A PEDESTRIAN</item>
         <item>RUNNING OVER AN ANIMAL</item>
         <item>VEHICLE ROLLOVER</item>

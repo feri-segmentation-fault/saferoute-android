@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.location.Location
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -14,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -51,7 +49,6 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
     private var latitudeSimulated: Double? = null
     private var longitudeSimulated: Double? = null
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewAccidentBinding.bind(view)
@@ -168,7 +165,6 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
         })
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun sendAccidentRequestToApi() {
         if (imageBase64.isEmpty() || binding.descriptionInput.text.isEmpty()) {
             requireActivity().runOnUiThread {
@@ -237,7 +233,6 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun sendAccidentRequestToBlockchain() {
 //        if (imageBase64.isEmpty() || binding.descriptionInput.text.isEmpty())
 //            return

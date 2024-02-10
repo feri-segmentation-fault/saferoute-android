@@ -61,6 +61,19 @@ class MyApplication : Application(), SensorEventListener {
         const val MQTT_USERNAME = "hivemq.webclient.1705871129963"
         const val MQTT_PASSWORD = "04A13FCBDSvwcz<fq,.?"
         const val CLIENT_ID: String = "android-app"
+
+        val ACCIDENT_TYPE_TRANSL = hashMapOf<String, String>(
+            "BOČNO TRČENJE" to "SIDE COLLISION",
+            "NALETNO TRČENJE" to "REAR-END COLLISION",
+            "OPLAŽENJE" to "COVERING",
+            "OSTALO" to "OTHER",
+            "POVOŽENJE PEŠCA" to "RUNNING OVER A PEDESTRIAN",
+            "POVOŽENJE ŽIVALI" to "RUNNING OVER AN ANIMAL",
+            "PREVRNITEV VOZILA" to "VEHICLE ROLLOVER",
+            "TRČENJE V OBJEKT" to "COLLISION INTO AN OBJECT",
+            "TRČENJE V STOJEČE / PARKIRANO VOZILO" to "COLLISION INTO A STANDING / PARKED VEHICLE",
+            "ČELNO TRČENJE" to "HEAD-ON COLLISION",
+        )
     }
 
     private fun mqttSendMessage(topic: String, messageInput: String) {

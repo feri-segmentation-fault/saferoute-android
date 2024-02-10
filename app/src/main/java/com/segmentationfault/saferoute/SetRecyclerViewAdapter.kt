@@ -1,13 +1,11 @@
 package com.segmentationfault.saferoute
 
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.segmentationfault.saferoute.models.Acceleration
 import java.time.Instant
@@ -25,7 +23,6 @@ class SetRecyclerViewAdapter(private val context: Context, private val accelerat
         return MyViewHolder(view)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun convertTime(timeStamp: String): String {
         val instant = Instant.parse(timeStamp)
 
@@ -35,7 +32,6 @@ class SetRecyclerViewAdapter(private val context: Context, private val accelerat
         return result
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.time.text = convertTime(accelerations[position].time)
         holder.accelerationAmount.text = accelerations[position].accelerationAmount.toString()

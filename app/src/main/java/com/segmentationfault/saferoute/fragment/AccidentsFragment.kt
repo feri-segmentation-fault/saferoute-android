@@ -3,15 +3,19 @@ package com.segmentationfault.saferoute.fragment
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.segmentationfault.saferoute.MyApplication
@@ -32,6 +36,9 @@ import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import java.io.IOException
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 
 class AccidentsFragment : Fragment(R.layout.fragment_accidents) {
     private lateinit var binding: FragmentAccidentsBinding
@@ -41,6 +48,9 @@ class AccidentsFragment : Fragment(R.layout.fragment_accidents) {
     private lateinit var map: MapView
     private val defaultZoom = 17.5
     private var defaultLocation: GeoPoint? = GeoPoint(46.5547, 15.6459)
+
+    private val dateFormatterFrom: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private val dateFormatterTo: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -83,57 +93,47 @@ class AccidentsFragment : Fragment(R.layout.fragment_accidents) {
     }
 
     private fun getAccidentsFromApi() {
-        // binding.statusText.text = "Retrieving accidents..."
-
         val request = Request.Builder()
             .get()
             .url(MyApplication.DATABASE_API + "/new-accidents")
             .build()
         app.client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                requireActivity().runOnUiThread {
-                    // binding.statusText.text = "Retrieving failed."
-                }
-
                 println(e.message)
                 println(e.toString())
             }
 
             override fun onResponse(call: Call, response: Response) {
-                if (response.code != 200) {
-                    requireActivity().runOnUiThread {
-                        // binding.statusText.text = "Retrieving failed."
-                    }
+                if (response.code != 200)
                     return
-                }
-
-                requireActivity().runOnUiThread {
-                    // binding.statusText.text = "Retrieving success."
-                }
 
                 val gson = Gson()
                 val res = JSONArray(response.body!!.string())
-                // println("HELLO")
-                // println(res.length())
 
                 for (i in 0 until res.length()) {
-                    Log.i("test", res.getJSONObject(i).toString())
                     val accidentJson = res.getJSONObject(i).toString()
-//                    println(accidentJson.toString())
                     val accident = gson.fromJson(accidentJson, Accident::class.java)
+
+                    val tmpDateTime = LocalDateTime.parse(accident.dateTime, dateFormatterFrom)
+
                     val markerPosition = GeoPoint(accident.latitude, accident.longitude)
                     val marker = Marker(map)
+                    marker.title = MyApplication.ACCIDENT_TYPE_TRANSL[accident.accidentType]
+                    marker.title += "\n\nDescription:\n" + accident.description
+                    marker.title += "\n\nReported:\n" + tmpDateTime.format(dateFormatterTo) + ", " + accident.username
                     marker.position = markerPosition
                     marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-                    marker.title = accident.description
 
-//                    println(accident.photoB64)
-//
-//                    if (accident.photoB64 !== "") {
-//                        val decodedString: ByteArray = Base64.decode(accident.photoB64, Base64.DEFAULT)
-//                        val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-//                        marker.image = decodedByte.toDrawable(resources);
-//                    }
+                    if (accident.photoB64 !== "") {
+                        val decodedString: ByteArray = Base64.decode(accident.photoB64, Base64.DEFAULT)
+                        val decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+
+                        val matrix = Matrix()
+                        matrix.postRotate(90f)
+                        val rotatedBitmap = Bitmap.createBitmap(decodedBitmap, 0, 0, decodedBitmap.width, decodedBitmap.height, matrix, true)
+
+                        marker.image = rotatedBitmap.toDrawable(resources)
+                    }
 
                     map.overlays.add(marker)
                 }
