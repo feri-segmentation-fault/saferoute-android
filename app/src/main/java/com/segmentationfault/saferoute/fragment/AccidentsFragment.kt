@@ -117,6 +117,13 @@ class AccidentsFragment : Fragment(R.layout.fragment_accidents) {
                     val tmpDateTime = LocalDateTime.parse(accident.dateTime, dateFormatterFrom)
 
                     val markerPosition = GeoPoint(accident.latitude, accident.longitude)
+
+                    try {
+                        val testMarker = Marker(map)
+                    } catch (e: Exception) {
+                        return
+                    }
+
                     val marker = Marker(map)
                     marker.title = MyApplication.TRANSL_ACCIDENT_TYPE[accident.accidentType]
                     marker.title += "\n\nDescription:\n" + accident.description
@@ -131,6 +138,12 @@ class AccidentsFragment : Fragment(R.layout.fragment_accidents) {
                         val matrix = Matrix()
                         matrix.postRotate(90f)
                         val rotatedBitmap = Bitmap.createBitmap(decodedBitmap, 0, 0, decodedBitmap.width, decodedBitmap.height, matrix, true)
+
+                        try {
+                            val testMarker = Marker(map)
+                        } catch (e: Exception) {
+                            return
+                        }
 
                         marker.image = rotatedBitmap.toDrawable(resources)
                     }
