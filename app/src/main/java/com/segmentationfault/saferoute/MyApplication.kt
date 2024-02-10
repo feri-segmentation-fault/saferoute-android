@@ -62,17 +62,32 @@ class MyApplication : Application(), SensorEventListener {
         const val MQTT_PASSWORD = "04A13FCBDSvwcz<fq,.?"
         const val CLIENT_ID: String = "android-app"
 
-        val ACCIDENT_TYPE_TRANSL = hashMapOf<String, String>(
+        val TRANSL_ACCIDENT_TYPE = hashMapOf<String, String>(
             "BOČNO TRČENJE" to "SIDE COLLISION",
             "NALETNO TRČENJE" to "REAR-END COLLISION",
-            "OPLAŽENJE" to "COVERING",
+            "OPLAŽENJE" to "CAR SCRATCHED",
             "OSTALO" to "OTHER",
             "POVOŽENJE PEŠCA" to "RUNNING OVER A PEDESTRIAN",
             "POVOŽENJE ŽIVALI" to "RUNNING OVER AN ANIMAL",
             "PREVRNITEV VOZILA" to "VEHICLE ROLLOVER",
             "TRČENJE V OBJEKT" to "COLLISION INTO AN OBJECT",
-            "TRČENJE V STOJEČE / PARKIRANO VOZILO" to "COLLISION INTO A STANDING / PARKED VEHICLE",
+            "TRČENJE V STOJEČE / PARKIRANO VOZILO" to "COLLISION INTO A PARKED VEHICLE",
             "ČELNO TRČENJE" to "HEAD-ON COLLISION",
+        )
+        val TRANSL_CLASSIFICATION = hashMapOf<String, String>(
+            "S HUDO TELESNO POŠKODBO" to "SERIOUS BODILY INJURY",
+            "S SMRTNIM IZIDOM" to "DEATH",
+            "Z LAŽJO TELESNO POŠKODBO" to "MINOR BODILY INJURY",
+            "Z MATERIALNO ŠKODO" to "MATERIAL DAMAGE",
+        )
+        val TRANSL_GENDER = hashMapOf<String, String>(
+            "MOSKI" to "MEN",
+            "ZENSKE" to "WOMEN",
+        )
+        val TRANSL_ALCOHOL = hashMapOf<String, String>(
+            "NI PODATKOV" to "NO DATA",
+            "POD VPLIVOM" to "UNDER INFLUENCE",
+            "TREZNI" to "SOBER",
         )
     }
 

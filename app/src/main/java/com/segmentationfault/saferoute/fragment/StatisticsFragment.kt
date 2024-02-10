@@ -155,7 +155,13 @@ class StatisticsFragment : Fragment() {
             val legendEntries = keysList.mapIndexed { index, key ->
                 LegendEntry().apply {
                     formColor = colors[index % colors.size]
-                    label = key
+
+                    when (title) {
+                        "Alcohol" -> label = MyApplication.TRANSL_ALCOHOL[key]
+                        "Gender" -> label = MyApplication.TRANSL_GENDER[key]
+                        "Classification" -> label = MyApplication.TRANSL_CLASSIFICATION[key]
+                        "Accident Type" -> label = MyApplication.TRANSL_ACCIDENT_TYPE[key]
+                    }
                 }
             }
             barChart.legend.setCustom(legendEntries)

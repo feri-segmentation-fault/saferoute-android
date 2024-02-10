@@ -118,7 +118,7 @@ class AccidentsFragment : Fragment(R.layout.fragment_accidents) {
 
                     val markerPosition = GeoPoint(accident.latitude, accident.longitude)
                     val marker = Marker(map)
-                    marker.title = MyApplication.ACCIDENT_TYPE_TRANSL[accident.accidentType]
+                    marker.title = MyApplication.TRANSL_ACCIDENT_TYPE[accident.accidentType]
                     marker.title += "\n\nDescription:\n" + accident.description
                     marker.title += "\n\nReported:\n" + tmpDateTime.format(dateFormatterTo) + ", " + accident.username
                     marker.position = markerPosition
