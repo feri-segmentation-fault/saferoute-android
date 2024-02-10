@@ -197,7 +197,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
                 payload.put("coordinatesX", location.latitude)
                 payload.put("coordinatesY", location.longitude)
             }
-            payload.put("accidentType", binding.spinner.selectedItem)
+            payload.put("accidentType", MyApplication.getSloAccidentTypeFromEng(binding.spinner.selectedItem.toString()))
             payload.put("username", app.username)
             payload.put("text", binding.descriptionInput.text)
             payload.put("photo", imageBase64)

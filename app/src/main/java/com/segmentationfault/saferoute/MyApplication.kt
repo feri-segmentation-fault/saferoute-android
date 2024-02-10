@@ -89,6 +89,14 @@ class MyApplication : Application(), SensorEventListener {
             "POD VPLIVOM" to "UNDER INFLUENCE",
             "TREZNI" to "SOBER",
         )
+
+        fun getSloAccidentTypeFromEng(type: String): String {
+            for ((key, value) in TRANSL_ACCIDENT_TYPE) {
+                if (type == value)
+                    return key
+            }
+            return "OTHER"
+        }
     }
 
     private fun mqttSendMessage(topic: String, messageInput: String) {
