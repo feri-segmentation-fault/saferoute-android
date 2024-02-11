@@ -157,7 +157,7 @@ class NewAccidentFragment : Fragment(R.layout.fragment_new_accident) {
                 val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
 
                 requireActivity().runOnUiThread {
-                    binding.statusText.text = resources.getQuantityText(R.plurals.photo_analysis_finished, jsonObject.getInt("num"))
+                    binding.statusText.text = resources.getQuantityString(R.plurals.photo_analysis_finished, jsonObject.getInt("num"), jsonObject.getInt("num"))
                     binding.captureImage.setImageBitmap(decodedByte)
                     binding.captureImage.rotation = 0f
                 }
